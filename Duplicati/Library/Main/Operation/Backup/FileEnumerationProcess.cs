@@ -1,29 +1,26 @@
-﻿#region Disclaimer / License
-// Copyright (C) 2019, The Duplicati Team
-// http://www.duplicati.com, info@duplicati.com
+﻿//  Copyright (C) 2015, The Duplicati Team
+//  http://www.duplicati.com, info@duplicati.com
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 2.1 of the License, or (at your option) any later version.
+//  This library is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as
+//  published by the Free Software Foundation; either version 2.1 of the
+//  License, or (at your option) any later version.
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Lesser General Public License for more details.
+//  This library is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//  Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-//
-#endregion
+//  You should have received a copy of the GNU Lesser General Public
+//  License along with this library; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 using System;
 using CoCoL;
 using System.Threading.Tasks;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using Duplicati.Library.Interface;
 using Duplicati.Library.Main.Operation.Common;
 using Duplicati.Library.Snapshots;
 using Duplicati.Library.Common.IO;
@@ -42,7 +39,7 @@ namespace Duplicati.Library.Main.Operation.Backup
         /// </summary>
         private static readonly string FILTER_LOGTAG = Logging.Log.LogTagFromType(typeof(FileEnumerationProcess));
 
-        public static Task Run(IEnumerable<string> sources, Snapshots.ISnapshotService snapshot, UsnJournalService journalService, FileAttributes fileAttributes, Duplicati.Library.Utility.IFilter sourcefilter, Duplicati.Library.Utility.IFilter emitfilter, Options.SymlinkStrategy symlinkPolicy, Options.HardlinkStrategy hardlinkPolicy, bool excludeemptyfolders, string[] ignorenames, string[] changedfilelist, ITaskReader taskreader, CancellationToken token)
+        public static Task Run(IEnumerable<string> sources, Snapshots.ISnapshotService snapshot, UsnJournalService journalService, FileAttributes fileAttributes, Duplicati.Library.Utility.IFilter sourcefilter, Duplicati.Library.Utility.IFilter emitfilter, Options.SymlinkStrategy symlinkPolicy, Options.HardlinkStrategy hardlinkPolicy, bool excludeemptyfolders, string[] ignorenames, string[] changedfilelist, ITaskReader taskreader)
         {
             return AutomationExtensions.RunTask(
             new
@@ -52,69 +49,66 @@ namespace Duplicati.Library.Main.Operation.Backup
 
             async self =>
             {
-                if (!token.IsCancellationRequested)
+                var hardlinkmap = new Dictionary<string, string>();
+                var mixinqueue = new Queue<string>();
+                Duplicati.Library.Utility.IFilter enumeratefilter = emitfilter;
+
+                bool includes;
+                bool excludes;
+                Library.Utility.FilterExpression.AnalyzeFilters(emitfilter, out includes, out excludes);
+                if (includes && !excludes)
+                    enumeratefilter = Library.Utility.FilterExpression.Combine(emitfilter, new Duplicati.Library.Utility.FilterExpression("*" + System.IO.Path.DirectorySeparatorChar, true));
+
+                // Simplify checking for an empty list
+                if (ignorenames != null && ignorenames.Length == 0)
+                    ignorenames = null;
+
+                // If we have a specific list, use that instead of enumerating the filesystem
+                IEnumerable<string> worklist;
+                if (changedfilelist != null && changedfilelist.Length > 0)
                 {
-                    var hardlinkmap = new Dictionary<string, string>();
-                    var mixinqueue = new Queue<string>();
-                    Duplicati.Library.Utility.IFilter enumeratefilter = emitfilter;
-
-                    bool includes;
-                    bool excludes;
-                    Library.Utility.FilterExpression.AnalyzeFilters(emitfilter, out includes, out excludes);
-                    if (includes && !excludes)
-                        enumeratefilter = Library.Utility.FilterExpression.Combine(emitfilter, new Duplicati.Library.Utility.FilterExpression("*" + System.IO.Path.DirectorySeparatorChar, true));
-
-                    // Simplify checking for an empty list
-                    if (ignorenames != null && ignorenames.Length == 0)
-                        ignorenames = null;
-
-                    // If we have a specific list, use that instead of enumerating the filesystem
-                    IEnumerable<string> worklist;
-                    if (changedfilelist != null && changedfilelist.Length > 0)
+                    worklist = changedfilelist.Where(x =>
                     {
-                        worklist = changedfilelist.Where(x =>
+                        var fa = FileAttributes.Normal;
+                        try
                         {
-                            var fa = FileAttributes.Normal;
-                            try
-                            {
-                                fa = snapshot.GetAttributes(x);
-                            }
-                            catch
-                            {
-                            }
-
-                            return AttributeFilter(x, fa, snapshot, sourcefilter, hardlinkPolicy, symlinkPolicy, hardlinkmap, fileAttributes, enumeratefilter, ignorenames, mixinqueue);
-                        });
-                    }
-                    else
-                    {
-                        Library.Utility.Utility.EnumerationFilterDelegate attributeFilter = (root, path, attr) =>
-                            AttributeFilter(path, attr, snapshot, sourcefilter, hardlinkPolicy, symlinkPolicy, hardlinkmap, fileAttributes, enumeratefilter, ignorenames, mixinqueue);
-
-                        if (journalService != null)
+                            fa = snapshot.GetAttributes(x);
+                        }
+                        catch
                         {
-                            // filter sources using USN journal, to obtain a sub-set of files / folders that may have been modified
-                            sources = journalService.GetModifiedSources(attributeFilter);
                         }
 
-                        worklist = snapshot.EnumerateFilesAndFolders(sources, attributeFilter, (rootpath, errorpath, ex) =>
-                        {
-                            Logging.Log.WriteWarningMessage(FILTER_LOGTAG, "FileAccessError", ex, "Error reported while accessing file: {0}", errorpath);
-                        });
-                    }
+                        return AttributeFilter(x, fa, snapshot, sourcefilter, hardlinkPolicy, symlinkPolicy, hardlinkmap, fileAttributes, enumeratefilter, ignorenames, mixinqueue);
+                    });
+                }
+                else
+                {
+                    Library.Utility.Utility.EnumerationFilterDelegate attributeFilter = (root, path, attr) =>
+                        AttributeFilter(path, attr, snapshot, sourcefilter, hardlinkPolicy, symlinkPolicy, hardlinkmap, fileAttributes, enumeratefilter, ignorenames, mixinqueue);
 
-                    var source = ExpandWorkList(worklist, mixinqueue, emitfilter, enumeratefilter);
-                    if (excludeemptyfolders)
-                        source = ExcludeEmptyFolders(source);
-
-                    // Process each path, and dequeue the mixins with symlinks as we go
-                    foreach (var s in source)
+                    if (journalService != null)
                     {
-                        if (!await taskreader.ProgressAsync)
-                            return;
-
-                        await self.Output.WriteAsync(s);
+                        // filter sources using USN journal, to obtain a sub-set of files / folders that may have been modified
+                        sources = journalService.GetModifiedSources(attributeFilter);
                     }
+
+                    worklist = snapshot.EnumerateFilesAndFolders(sources, attributeFilter, (rootpath, errorpath, ex) =>
+                    {
+                        Logging.Log.WriteWarningMessage(FILTER_LOGTAG, "FileAccessError", ex, "Error reported while accessing file: {0}", errorpath);
+                    });
+                }
+
+                var source = ExpandWorkList(worklist, mixinqueue, emitfilter, enumeratefilter);
+                if (excludeemptyfolders)
+                    source = ExcludeEmptyFolders(source);
+
+                // Process each path, and dequeue the mixins with symlinks as we go
+                foreach (var s in source)
+                {
+                    if (!await taskreader.ProgressAsync)
+                        return;
+
+                    await self.Output.WriteAsync(s);
                 }
             });
         }
@@ -158,7 +152,7 @@ namespace Duplicati.Library.Main.Operation.Backup
                             // Propagate the any-flag upwards
                             if (pathstack.Count > 0)
                                 pathstack.Peek().AnyEntries = true;
-
+                                
                             yield return e.Path;
                         }
                         else
@@ -172,7 +166,7 @@ namespace Duplicati.Library.Main.Operation.Backup
                     }
                 }
                 // Just emit files
-                else
+                else 
                 {
                     if (pathstack.Count != 0)
                         pathstack.Peek().AnyEntries = true;
@@ -183,7 +177,7 @@ namespace Duplicati.Library.Main.Operation.Backup
             while (pathstack.Count > 0)
             {
                 var e = pathstack.Pop();
-                if (e.AnyEntries || pathstack.Count == 0)
+                if (e.AnyEntries|| pathstack.Count == 0)
                 {
                     // Propagate the any-flag upwards
                     if (pathstack.Count > 0)
@@ -230,8 +224,8 @@ namespace Duplicati.Library.Main.Operation.Backup
         /// <param name="attributes">The file or folder attributes.</param>
         private static bool AttributeFilter(string path, FileAttributes attributes, Snapshots.ISnapshotService snapshot, Library.Utility.IFilter sourcefilter, Options.HardlinkStrategy hardlinkPolicy, Options.SymlinkStrategy symlinkPolicy, Dictionary<string, string> hardlinkmap, FileAttributes fileAttributes, Duplicati.Library.Utility.IFilter enumeratefilter, string[] ignorenames, Queue<string> mixinqueue)
         {
-            // Step 1, exclude block devices
-            try
+			// Step 1, exclude block devices
+			try
             {
                 if (snapshot.IsBlockDevice(path))
                 {
@@ -286,7 +280,7 @@ namespace Duplicati.Library.Main.Operation.Backup
                 {
                     Logging.Log.WriteWarningMessage(FILTER_LOGTAG, "PathProcessingError", ex, "Failed to process path: {0}", path);
                     return false;
-                }
+                }                    
             }
 
             if (ignorenames != null && (attributes & FileAttributes.Directory) != 0)
@@ -303,7 +297,7 @@ namespace Duplicati.Library.Main.Operation.Backup
                         }
                     }
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     Logging.Log.WriteWarningMessage(FILTER_LOGTAG, "PathProcessingError", ex, "Failed to process path: {0}", path);
                 }
