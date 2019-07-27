@@ -154,10 +154,6 @@
       <Project>{52826615-7964-47FE-B4B3-1B2DBDF605B9}</Project>
       <Name>Duplicati.Library.Modules.Builtin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\License\Duplicati.License.csproj">
-      <Project>{4D012CB1-4B92-47F4-89B7-BF80A73A2E99}</Project>
-      <Name>Duplicati.License</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Library\Backend\FTP\Duplicati.Library.Backend.FTP.csproj">
       <Project>{F61679A9-E5DE-468A-B5A4-05F92D0143D2}</Project>
       <Name>Duplicati.Library.Backend.FTP</Name>
@@ -181,6 +177,10 @@
     <ProjectReference Include="..\Library\Backend\WEBDAV\Duplicati.Library.Backend.WEBDAV.csproj">
       <Project>{BAE27510-8B5D-44B2-B33E-372A98908041}</Project>
       <Name>Duplicati.Library.Backend.WEBDAV</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\License\Duplicati.License.csproj">
+      <Project>{9a748add-a364-4fe2-8786-d306cdc26020}</Project>
+      <Name>Duplicati.License</Name>
     </ProjectReference>
     <ProjectReference Include="BackendTool\Duplicati.CommandLine.BackendTool.csproj">
       <Project>{2AF960C0-357D-4D44-A3D5-8B6E89DB0F11}</Project>

@@ -158,10 +158,6 @@
       <Project>{DE3E5D4C-51AB-4E5E-BEE8-E636CEBFBA65}</Project>
       <Name>Duplicati.Library.Utility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\License\Duplicati.License.csproj">
-      <Project>{4D012CB1-4B92-47F4-89B7-BF80A73A2E99}</Project>
-      <Name>Duplicati.License</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Server\Duplicati.Server.csproj">
       <Project>{e53a5333-2fd5-48e3-8549-a481ee34b934}</Project>
       <Name>Duplicati.Server</Name>

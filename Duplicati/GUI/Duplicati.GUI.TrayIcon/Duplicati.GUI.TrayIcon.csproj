@@ -264,10 +264,6 @@
       <Project>{D63E53E4-A458-4C2F-914D-92F715F58ACE}</Project>
       <Name>Duplicati.Library.Snapshots</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\License\Duplicati.License.csproj">
-      <Project>{4D012CB1-4B92-47F4-89B7-BF80A73A2E99}</Project>
-      <Name>Duplicati.License</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Library\Localization\Duplicati.Library.Localization.csproj">
       <Project>{B68F2214-951F-4F78-8488-66E1ED3F50BF}</Project>
       <Name>Duplicati.Library.Localization</Name>

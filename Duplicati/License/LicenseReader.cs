@@ -19,9 +19,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Duplicati.Library.Common.IO;
-using Duplicati.Library.Utility;
 
 namespace Duplicati.License
 {
