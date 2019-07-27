@@ -166,10 +166,6 @@
       <Project>{B68F2214-951F-4F78-8488-66E1ED3F50BF}</Project>
       <Name>Duplicati.Library.Localization</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Library\Logging\Duplicati.Library.Logging.csproj">
-      <Project>{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}</Project>
-      <Name>Duplicati.Library.Logging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Library\Backend\Backblaze\Duplicati.Library.Backend.Backblaze.csproj">
       <Project>{61C43D61-4368-4942-84A3-1EB623F4EF2A}</Project>
       <Name>Duplicati.Library.Backend.Backblaze</Name>

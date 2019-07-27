@@ -208,8 +208,12 @@
       <Project>{BAE27510-8B5D-44B2-B33E-372A98908041}</Project>
       <Name>Duplicati.Library.Backend.WEBDAV</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Library\Logging\Duplicati.Library.Logging.csproj">
+      <Project>{86ae0662-d2be-4b03-8b16-7957dfce18a5}</Project>
+      <Name>Duplicati.Library.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Server\Duplicati.Server.csproj">
-      <Project>{19E661D2-C5DA-4F35-B3EE-7586E5734B5F}</Project>
+      <Project>{e53a5333-2fd5-48e3-8549-a481ee34b934}</Project>
       <Name>Duplicati.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Server\Duplicati.Server.Serialization\Duplicati.Server.Serialization.csproj">
@@ -248,10 +252,6 @@
       <Project>{0CA86ECF-5BEC-4909-B4F6-110A03B30B92}</Project>
       <Name>Duplicati.Library.DynamicLoader</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Library\Logging\Duplicati.Library.Logging.csproj">
-      <Project>{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}</Project>
-      <Name>Duplicati.Library.Logging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Library\Main\Duplicati.Library.Main.csproj">
       <Project>{10D2D1B7-C664-41D8-9B3A-00040C3D421B}</Project>
       <Name>Duplicati.Library.Main</Name>
@@ -279,10 +279,6 @@
     <ProjectReference Include="..\..\Library\Backend\OneDrive\Duplicati.Library.Backend.OneDrive.csproj">
       <Project>{CCD76347-7DC7-4B42-B7E1-E500E624CAC3}</Project>
       <Name>Duplicati.Library.Backend.OneDrive</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Duplicati.Service.csproj">
-      <Project>{E93F3DE2-FF3A-4709-96A3-8190AA14FA25}</Project>
-      <Name>Duplicati.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Library\Backend\GoogleServices\Duplicati.Library.Backend.GoogleServices.csproj">
       <Project>{5489181D-950C-44AF-873C-45EB0A3B6BD2}</Project>

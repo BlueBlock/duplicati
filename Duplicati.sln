@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Backend.F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Compression", "Duplicati\Library\Compression\Duplicati.Library.Compression.csproj", "{19ECCE09-B5EB-406C-8C57-BAC66997D469}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Logging", "Duplicati\Library\Logging\Duplicati.Library.Logging.csproj", "{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Backend.S3", "Duplicati\Library\Backend\S3\Duplicati.Library.Backend.S3.csproj", "{C03F6DFD-805A-4BE0-9338-64870ADDB4A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.CommandLine", "Duplicati\CommandLine\Duplicati.CommandLine.csproj", "{81765A64-3661-4E3E-B850-2F6F87A51F74}"
@@ -41,8 +39,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Backend.O
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Backend.SSHv2", "Duplicati\Library\Backend\SSHv2\Duplicati.Library.Backend.SSHv2.csproj", "{FF2BF37C-E502-4C98-BEA0-701671DDFA08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Server", "Duplicati\Server\Duplicati.Server.csproj", "{19E661D2-C5DA-4F35-B3EE-7586E5734B5F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.GUI.TrayIcon", "Duplicati\GUI\Duplicati.GUI.TrayIcon\Duplicati.GUI.TrayIcon.csproj", "{17566860-3D98-4604-AA5B-47661F75609F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Server.Serialization", "Duplicati\Server\Duplicati.Server.Serialization\Duplicati.Server.Serialization.csproj", "{33FD1D24-C28F-4C71-933F-98F1586EA76C}"
@@ -54,8 +50,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Localization", "Duplicati\Library\Localization\Duplicati.Library.Localization.csproj", "{B68F2214-951F-4F78-8488-66E1ED3F50BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.AutoUpdater", "Duplicati\Library\AutoUpdater\Duplicati.Library.AutoUpdater.csproj", "{7E119745-1F62-43F0-936C-F312A1912C0B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Service", "Duplicati\Service\Duplicati.Service.csproj", "{E93F3DE2-FF3A-4709-96A3-8190AA14FA25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Backend.AzureBlob", "Duplicati\Library\Backend\AzureBlob\Duplicati.Library.Backend.AzureBlob.csproj", "{8E4CECFB-0413-4B00-AB93-78D1C3902BD5}"
 EndProject
@@ -103,6 +97,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.CommandLine.Confi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Duplicati.Library.Encryption", "Duplicati\Library\Encryption\Duplicati.Library.Encryption.csproj", "{314BDAE4-0F0E-42C8-A0C3-2C70232CF0B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Library.Logging", "Duplicati\Library\Logging\Duplicati.Library.Logging.csproj", "{86AE0662-D2BE-4B03-8B16-7957DFCE18A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Service", "Duplicati\Service\Duplicati.Service.csproj", "{544C98DB-BD45-4511-AD65-DEAF62FB5D41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duplicati.Server", "Duplicati\Server\Duplicati.Server.csproj", "{E53A5333-2FD5-48E3-8549-A481EE34B934}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,10 +129,6 @@ Global
 		{19ECCE09-B5EB-406C-8C57-BAC66997D469}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19ECCE09-B5EB-406C-8C57-BAC66997D469}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19ECCE09-B5EB-406C-8C57-BAC66997D469}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C03F6DFD-805A-4BE0-9338-64870ADDB4A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C03F6DFD-805A-4BE0-9338-64870ADDB4A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C03F6DFD-805A-4BE0-9338-64870ADDB4A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -185,10 +181,6 @@ Global
 		{FF2BF37C-E502-4C98-BEA0-701671DDFA08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF2BF37C-E502-4C98-BEA0-701671DDFA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF2BF37C-E502-4C98-BEA0-701671DDFA08}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19E661D2-C5DA-4F35-B3EE-7586E5734B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19E661D2-C5DA-4F35-B3EE-7586E5734B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19E661D2-C5DA-4F35-B3EE-7586E5734B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19E661D2-C5DA-4F35-B3EE-7586E5734B5F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{17566860-3D98-4604-AA5B-47661F75609F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{17566860-3D98-4604-AA5B-47661F75609F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17566860-3D98-4604-AA5B-47661F75609F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -213,10 +205,6 @@ Global
 		{7E119745-1F62-43F0-936C-F312A1912C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E119745-1F62-43F0-936C-F312A1912C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E119745-1F62-43F0-936C-F312A1912C0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E93F3DE2-FF3A-4709-96A3-8190AA14FA25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E93F3DE2-FF3A-4709-96A3-8190AA14FA25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E93F3DE2-FF3A-4709-96A3-8190AA14FA25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E93F3DE2-FF3A-4709-96A3-8190AA14FA25}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E4CECFB-0413-4B00-AB93-78D1C3902BD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8E4CECFB-0413-4B00-AB93-78D1C3902BD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E4CECFB-0413-4B00-AB93-78D1C3902BD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -309,6 +297,18 @@ Global
 		{314BDAE4-0F0E-42C8-A0C3-2C70232CF0B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{314BDAE4-0F0E-42C8-A0C3-2C70232CF0B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{314BDAE4-0F0E-42C8-A0C3-2C70232CF0B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86AE0662-D2BE-4B03-8B16-7957DFCE18A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86AE0662-D2BE-4B03-8B16-7957DFCE18A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86AE0662-D2BE-4B03-8B16-7957DFCE18A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86AE0662-D2BE-4B03-8B16-7957DFCE18A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{544C98DB-BD45-4511-AD65-DEAF62FB5D41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{544C98DB-BD45-4511-AD65-DEAF62FB5D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{544C98DB-BD45-4511-AD65-DEAF62FB5D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{544C98DB-BD45-4511-AD65-DEAF62FB5D41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E53A5333-2FD5-48E3-8549-A481EE34B934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53A5333-2FD5-48E3-8549-A481EE34B934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53A5333-2FD5-48E3-8549-A481EE34B934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53A5333-2FD5-48E3-8549-A481EE34B934}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

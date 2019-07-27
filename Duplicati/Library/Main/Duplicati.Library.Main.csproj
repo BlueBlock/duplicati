@@ -146,6 +146,10 @@
     <Compile Include="ProcessController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Logging\Duplicati.Library.Logging.csproj">
+      <Project>{86ae0662-d2be-4b03-8b16-7957dfce18a5}</Project>
+      <Name>Duplicati.Library.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utility\Duplicati.Library.Utility.csproj">
       <Project>{DE3E5D4C-51AB-4E5E-BEE8-E636CEBFBA65}</Project>
       <Name>Duplicati.Library.Utility</Name>
@@ -157,10 +161,6 @@
     <ProjectReference Include="..\Interface\Duplicati.Library.Interface.csproj">
       <Project>{C5899F45-B0FF-483C-9D38-24A9FCAAB237}</Project>
       <Name>Duplicati.Library.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Logging\Duplicati.Library.Logging.csproj">
-      <Project>{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}</Project>
-      <Name>Duplicati.Library.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Snapshots\Duplicati.Library.Snapshots.csproj">
       <Project>{D63E53E4-A458-4C2F-914D-92F715F58ACE}</Project>

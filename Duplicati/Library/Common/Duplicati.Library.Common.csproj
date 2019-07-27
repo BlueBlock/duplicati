@@ -88,13 +88,13 @@
   -->
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Logging\Duplicati.Library.Logging.csproj">
-      <Project>{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}</Project>
-      <Name>Duplicati.Library.Logging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Interface\Duplicati.Library.Interface.csproj">
       <Project>{C5899F45-B0FF-483C-9D38-24A9FCAAB237}</Project>
       <Name>Duplicati.Library.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logging\Duplicati.Library.Logging.csproj">
+      <Project>{86ae0662-d2be-4b03-8b16-7957dfce18a5}</Project>
+      <Name>Duplicati.Library.Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

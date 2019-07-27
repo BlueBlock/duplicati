@@ -135,7 +135,7 @@
       <Name>Duplicati.Library.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Library\Logging\Duplicati.Library.Logging.csproj">
-      <Project>{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}</Project>
+      <Project>{86ae0662-d2be-4b03-8b16-7957dfce18a5}</Project>
       <Name>Duplicati.Library.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Library\Modules\Builtin\Duplicati.Library.Modules.Builtin.csproj">
@@ -163,12 +163,8 @@
       <Name>Duplicati.License</Name>
     </ProjectReference>
     <ProjectReference Include="..\Server\Duplicati.Server.csproj">
-      <Project>{19E661D2-C5DA-4F35-B3EE-7586E5734B5F}</Project>
+      <Project>{e53a5333-2fd5-48e3-8549-a481ee34b934}</Project>
       <Name>Duplicati.Server</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Service\Duplicati.Service.csproj">
-      <Project>{E93F3DE2-FF3A-4709-96A3-8190AA14FA25}</Project>
-      <Name>Duplicati.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\Server\Duplicati.Server.Serialization\Duplicati.Server.Serialization.csproj">
       <Project>{33FD1D24-C28F-4C71-933F-98F1586EA76C}</Project>

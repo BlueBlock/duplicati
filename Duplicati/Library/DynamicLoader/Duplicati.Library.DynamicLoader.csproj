@@ -55,7 +55,7 @@
       <Name>Duplicati.Library.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logging\Duplicati.Library.Logging.csproj">
-      <Project>{D10A5FC0-11B4-4E70-86AA-8AEA52BD9798}</Project>
+      <Project>{86ae0662-d2be-4b03-8b16-7957dfce18a5}</Project>
       <Name>Duplicati.Library.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utility\Duplicati.Library.Utility.csproj">
