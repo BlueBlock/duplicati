@@ -57,8 +57,6 @@
     </ProjectReference>
     <ProjectReference Include="..\Library\Logging\Duplicati.Library.Logging.csproj">
     </ProjectReference>
-    <ProjectReference Include="..\Library\Main\Duplicati.Library.Main.csproj">
-    </ProjectReference>
     <ProjectReference Include="..\Library\Modules\Builtin\Duplicati.Library.Modules.Builtin.csproj">
     </ProjectReference>
     <ProjectReference Include="..\Library\Utility\Duplicati.Library.Utility.csproj">

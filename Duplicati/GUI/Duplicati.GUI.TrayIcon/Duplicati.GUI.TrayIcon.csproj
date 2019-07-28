@@ -252,10 +252,6 @@
       <Project>{0CA86ECF-5BEC-4909-B4F6-110A03B30B92}</Project>
       <Name>Duplicati.Library.DynamicLoader</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Library\Main\Duplicati.Library.Main.csproj">
-      <Project>{10D2D1B7-C664-41D8-9B3A-00040C3D421B}</Project>
-      <Name>Duplicati.Library.Main</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Library\Modules\Builtin\Duplicati.Library.Modules.Builtin.csproj">
       <Project>{52826615-7964-47FE-B4B3-1B2DBDF605B9}</Project>
       <Name>Duplicati.Library.Modules.Builtin</Name>

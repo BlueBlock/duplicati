@@ -138,13 +138,13 @@
       <Project>{86ae0662-d2be-4b03-8b16-7957dfce18a5}</Project>
       <Name>Duplicati.Library.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Library\Main\Duplicati.Library.Main.csproj">
+      <Project>{47a93649-923e-4b26-bbd5-3e9f822c2205}</Project>
+      <Name>Duplicati.Library.Main</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Library\Modules\Builtin\Duplicati.Library.Modules.Builtin.csproj">
       <Project>{52826615-7964-47FE-B4B3-1B2DBDF605B9}</Project>
       <Name>Duplicati.Library.Modules.Builtin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Library\Main\Duplicati.Library.Main.csproj">
-      <Project>{10D2D1B7-C664-41D8-9B3A-00040C3D421B}</Project>
-      <Name>Duplicati.Library.Main</Name>
     </ProjectReference>
     <ProjectReference Include="..\Library\Snapshots\Duplicati.Library.Snapshots.csproj">
       <Project>{D63E53E4-A458-4C2F-914D-92F715F58ACE}</Project>

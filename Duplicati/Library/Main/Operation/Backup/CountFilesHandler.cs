@@ -14,13 +14,10 @@
 //  You should have received a copy of the GNU Lesser General Public
 //  License along with this library; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Duplicati.Library.Utility;
-using System.Threading;
 using CoCoL;
-using Duplicati.Library.Snapshots;
 
 namespace Duplicati.Library.Main.Operation.Backup
 {
