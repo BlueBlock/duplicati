@@ -19,6 +19,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace Duplicati.UnitTest
 {
@@ -28,10 +29,14 @@ namespace Duplicati.UnitTest
         /// The log tag
         /// </summary>
         private static readonly string LOGTAG = Library.Logging.Log.LogTagFromType<CommandLineOperationsTests>();
+        
         /// <summary>
         /// The folder that contains all the source data which the test is based on
         /// </summary>
         protected readonly string SOURCEFOLDER = Path.Combine(BASEFOLDER, "data");
+
+        private readonly string zipFilename = "data.zip";
+        private string zipFilepath => Path.Combine(BASEFOLDER, this.zipFilename);
 
         protected virtual IEnumerable<string> SourceDataFolders
         {
@@ -44,10 +49,28 @@ namespace Duplicati.UnitTest
             }
         }
 
-        [OneTimeSetUp]
-        public override void PrepareSourceData()
+        public override void OneTimeSetUp()
         {
-            base.PrepareSourceData();
+            base.OneTimeSetUp();
+            
+            using (WebClient client = new WebClient())
+            {
+                client.DownloadFile($"https://s3.amazonaws.com/duplicati-test-file-hosting/{this.zipFilename}", this.zipFilepath);
+            }
+            
+            System.IO.Compression.ZipFile.ExtractToDirectory(this.zipFilepath, BASEFOLDER);
+        }
+
+        public override void OneTimeTearDown()
+        {
+            if (Directory.Exists(this.SOURCEFOLDER))
+            {
+                Directory.Delete(this.SOURCEFOLDER, true);
+            }
+            if (File.Exists(this.zipFilepath))
+            {
+                File.Delete(this.zipFilepath);
+            }
         }
 
         [Test]
@@ -55,8 +78,6 @@ namespace Duplicati.UnitTest
         [Category("BulkNormal")]
         public void RunCommands()
         {
-            if (Directory.Exists(DATAFOLDER))
-                PrepareSourceData();
             DoRunCommands(TARGETFOLDER);
         }
 
@@ -65,8 +86,6 @@ namespace Duplicati.UnitTest
         [Category("BulkNoSize")]
         public void RunCommandsWithoutSize()
         {
-            if (Directory.Exists(DATAFOLDER))
-                PrepareSourceData();
             DoRunCommands(new SizeOmittingBackend().ProtocolKey + "://" + TARGETFOLDER);
         }
 
@@ -75,7 +94,13 @@ namespace Duplicati.UnitTest
             var opts = from n in TestOptions select string.Format("--{0}=\"{1}\"", n.Key, n.Value);
             var backupargs = (new string[] { "backup", target, DATAFOLDER }.Union(opts)).ToArray();
 
-            foreach(var n in SourceDataFolders)
+            if (SourceDataFolders == null || SourceDataFolders.Count() < 3)
+            {
+                ProgressWriteLine($"ERROR: A minimum of 3 data folders are required in {SOURCEFOLDER}.");
+                throw new Exception("Failed during initial minimum data folder check");
+            }
+
+            foreach (var n in SourceDataFolders)
             {
                 var foldername = Path.GetFileName(n);
                 var targetfolder = Path.Combine(DATAFOLDER, foldername);
@@ -95,11 +120,11 @@ namespace Duplicati.UnitTest
             }
 
             ProgressWriteLine("Running unchanged backup ...");
-            using(new Library.Logging.Timer(LOGTAG, "UnchangedBackupe", "Unchanged backup"))
+            using(new Library.Logging.Timer(LOGTAG, "UnchangedBackup", "Unchanged backup"))
                 Duplicati.CommandLine.Program.RealMain(backupargs);
 
             var datafolders = Directory.EnumerateDirectories(DATAFOLDER);
-
+            
             var f = datafolders.Skip(datafolders.Count() / 2).First();
 
             ProgressWriteLine("Renaming folder {0}", Path.GetFileName(f));
@@ -119,7 +144,7 @@ namespace Duplicati.UnitTest
             Directory.Delete(rm1, true);
             Directory.Delete(rm2, true);
             var rmfiles = Directory.EnumerateFiles(rm3, "*", SearchOption.AllDirectories);
-            foreach(var n in rmfiles.Take(rmfiles.Count() / 2))
+            foreach (var n in rmfiles.Take(rmfiles.Count() / 2))
                 File.Delete(n);
 
             ProgressWriteLine("Running backup with deleted data...");
@@ -147,9 +172,6 @@ namespace Duplicati.UnitTest
             datafolders = Directory.EnumerateDirectories(DATAFOLDER);
             var rf = datafolders.Skip(datafolders.Count() - 2).First();
 
-            if (Directory.Exists(RESTOREFOLDER))
-                Directory.Delete(RESTOREFOLDER, true);
-
             ProgressWriteLine("Partial restore of {0} ...", Path.GetFileName(rf));
             using(new Library.Logging.Timer(LOGTAG, "PartialRestore", "Partial restore"))
                 Duplicati.CommandLine.Program.RealMain((new string[] { "restore", target, rf + "*", "--restore-path=\"" + RESTOREFOLDER + "\"" }.Union(opts)).ToArray());
@@ -158,8 +180,7 @@ namespace Duplicati.UnitTest
             using (new Library.Logging.Timer(LOGTAG, "VerifiationOfPartialRestore", "Verification of partial restored files"))
                 TestUtils.VerifyDir(rf, RESTOREFOLDER, true);
 
-            if (Directory.Exists(RESTOREFOLDER))
-                Directory.Delete(RESTOREFOLDER, true);
+            Directory.Delete(RESTOREFOLDER, true);
 
             ProgressWriteLine("Partial restore of {0} without local db...", Path.GetFileName(rf));
             using(new Library.Logging.Timer(LOGTAG, "PartialRestoreWithoutLocalDb", "Partial restore without local db"))
@@ -169,8 +190,7 @@ namespace Duplicati.UnitTest
             using (new Library.Logging.Timer(LOGTAG, "VerificationOfPartialRestore", "Verification of partial restored files"))
                 TestUtils.VerifyDir(rf, RESTOREFOLDER, true);
             
-            if (Directory.Exists(RESTOREFOLDER))
-                Directory.Delete(RESTOREFOLDER, true);
+            Directory.Delete(RESTOREFOLDER, true);
 
             ProgressWriteLine("Full restore ...");
             using(new Library.Logging.Timer(LOGTAG, "FullRestore", "Full restore"))
@@ -181,8 +201,7 @@ namespace Duplicati.UnitTest
                 foreach(var s in Directory.EnumerateDirectories(DATAFOLDER))
                     TestUtils.VerifyDir(s, Path.Combine(RESTOREFOLDER, Path.GetFileName(s)), true);
 
-            if (Directory.Exists(RESTOREFOLDER))
-                Directory.Delete(RESTOREFOLDER, true);
+            Directory.Delete(RESTOREFOLDER, true);
 
             ProgressWriteLine("Full restore without local db...");
             using(new Library.Logging.Timer(LOGTAG, "FullRestoreWithoutDb", "Full restore without local db"))
@@ -197,7 +216,6 @@ namespace Duplicati.UnitTest
             using (new Library.Logging.Timer(LOGTAG, "TestRemoteData", "Test remote data"))
                 if (Duplicati.CommandLine.Program.RealMain((new string[] { "test", target, "all" }.Union(opts)).ToArray()) != 0)
                     throw new Exception("Failed during final remote verification");
-
         }
     }
 }
