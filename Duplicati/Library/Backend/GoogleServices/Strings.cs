@@ -18,7 +18,8 @@ using Duplicati.Library.Localization.Short;
 
 namespace Duplicati.Library.Backend.Strings
 {
-    internal static class GoogleCloudStorage {
+    internal static class GoogleCloudStorage
+    {
         public static string Description { get { return LC.L(@"This backend can read and write data to Google Cloud Storage. Supported format is ""googlecloudstore://bucket/folder""."); } }
         public static string DisplayName { get { return LC.L(@"Google Cloud Storage"); } }
         public static string MissingAuthID(string url) { return LC.L(@"You need an AuthID, you can get it from: {0}", url); }
@@ -34,10 +35,10 @@ namespace Duplicati.Library.Backend.Strings
         public static string StorageclassDescriptionShort { get { return LC.L(@"Specifies storage class for creating a bucket"); } }
         public static string ProjectDescriptionShort { get { return LC.L(@"Specifies project for creating a bucket"); } }
         public static string ProjectDescriptionLong { get { return LC.L(@"This option is only used when creating new buckets. Use this option to supply the project ID that the bucket is attached to. The project determines where usage charges are applied"); } }
-
     }
 
-    internal static class GoogleDrive {
+    internal static class GoogleDrive
+    {
         public static string Description { get { return LC.L(@"This backend can read and write data to Google Drive. Supported format is ""googledrive://folder/subfolder""."); } }
         public static string AuthidShort { get { return LC.L(@"The authorization code"); } }
         public static string AuthidLong(string url) { return LC.L(@"The authorization token retrieved from {0}", url); }
@@ -46,5 +47,17 @@ namespace Duplicati.Library.Backend.Strings
         public static string TeamDriveIdShort { get { return LC.L("Team drive ID"); } }
         public static string TeamDriveIdLong { get { return LC.L("This option sets the team drive to use. Leaving it empty uses the personal drive"); } }
     }
+
+    internal static class GoogleDriveAppDrive
+    {
+        public static string Description { get { return LC.L(@"This backend can read and write data to Google Drive AppFolder. Supported format is ""googledriveappdrive://folder/subfolder""."); } }
+        public static string AuthidShort { get { return LC.L(@"The authorization code"); } }
+        public static string AuthidLong(string url) { return LC.L(@"The authorization token retrieved from {0}", url); }
+        public static string DisplayName { get { return LC.L(@"Google Drive App Drive"); } }
+        public static string MultipleEntries(string folder, string parent) { return LC.L(@"There is more than one item named ""{0}"" in the folder ""{1}""", folder, parent); }
+        public static string TeamDriveIdShort { get { return LC.L("Team drive ID"); } }
+        public static string TeamDriveIdLong { get { return LC.L("This option sets the team drive to use. Leaving it empty uses the personal drive"); } }
+    }
+
 }
 
